@@ -8,7 +8,7 @@ let myTime;
 
 export default class Board extends Component {
 	renderSquare = (x, y) => {
-		return <Square id={x * row + y} boxClick={this.boxClick} valueX={x} valueY={y} value={this.props.squares[x][y]} />;
+		return <Square key={x * row + y} boxClick={this.boxClick} valueX={x} valueY={y} value={this.props.squares[x][y]} />;
 	};
 	// renderRow = (row, numPerRow) => {
 	// 	let rowHTML = [];
@@ -22,7 +22,7 @@ export default class Board extends Component {
 	timecounting = () => {
 		myTime = setInterval(() => {
 			this.props.setTheState({
-				time: this.props.time + 1,
+				time: this.props.time + 1
 			});
 		}, 1000); // every 1 second, it will add 1 into time variable (computer use millisecond so 1000 is 1 second)
 	};
@@ -35,7 +35,11 @@ export default class Board extends Component {
 			for (let y = 0; y < column; y++) {
 				rowHTML.push(this.renderSquare(x, y));
 			}
-			gridHTML.push(<div className="ticrow">{rowHTML}</div>);
+			gridHTML.push(
+				<div className="ticrow" key={x}>
+					{rowHTML}
+				</div>
+			);
 		}
 
 		return gridHTML;
@@ -64,7 +68,7 @@ export default class Board extends Component {
 		}
 		if (x - streakN - 1 >= 0 && boardCoord[x - streakN - 1][y] === enemyPlayer) {
 			wrapVer += 1;
-			console.log("hahaha");
+			// console.log("hahaha");
 		}
 		//South
 		while (x + streakN < row && boardCoord[x + streakS][y] === currentPlayer) {
@@ -72,7 +76,7 @@ export default class Board extends Component {
 		}
 		if (x + streakN + 1 < row && boardCoord[x + streakN + 1][y] === enemyPlayer) {
 			wrapVer += 1;
-			console.log("hahaha");
+			// console.log("hahaha");
 		}
 		//West
 		while (y - streakW >= 0 && boardCoord[x][y - streakW] === currentPlayer) {
@@ -80,16 +84,16 @@ export default class Board extends Component {
 		}
 		if (y - streakW - 1 >= 0 && boardCoord[x][y - streakW - 1] === enemyPlayer) {
 			wrapHor += 1;
-			console.log("hahaha");
+			// console.log("hahaha");
 		}
-		console.log(boardCoord[x][y - streakW - 1]);
+		// console.log(boardCoord[x][y - streakW - 1]);
 		//East
 		while (y + streakE < column && boardCoord[x][y + streakE] === currentPlayer) {
 			streakE += 1;
 		}
 		if (y + streakE + 1 < column && boardCoord[x][y + streakE + 1] === enemyPlayer) {
 			wrapHor += 1;
-			console.log("hahaha");
+			// console.log("hahaha");
 		}
 		//NW
 		while (x - streakNW >= 0 && y - streakNW >= 0 && boardCoord[x - streakNW][y - streakNW] === currentPlayer) {
@@ -97,7 +101,7 @@ export default class Board extends Component {
 		}
 		if (x - streakNW - 1 >= 0 && y - streakNW - 1 >= 0 && boardCoord[x - streakNW - 1][y - streakNW - 1] === enemyPlayer) {
 			wrapDiag += 1;
-			console.log("hahaha");
+			// console.log("hahaha");
 		}
 		//NE
 		while (x - streakNE >= 0 && y + streakNE < column && boardCoord[x - streakNE][y + streakNE] === currentPlayer) {
@@ -105,7 +109,7 @@ export default class Board extends Component {
 		}
 		if (x - streakNE - 1 >= 0 && y + streakNE + 1 < column && boardCoord[x - streakNE - 1][y + streakNE + 1] === enemyPlayer) {
 			wrapDiag2 += 1;
-			console.log("hahaha");
+			// console.log("hahaha");
 		}
 
 		//SW
@@ -132,7 +136,7 @@ export default class Board extends Component {
 		if (streakNE === 0 || streakSW === 0) diag1 += 1;
 		let diag2 = streakNW + streakSE - 1;
 		if (streakNW === 0 || streakSE === 0) diag2 += 1;
-		console.log(ver, wrapVer);
+		// console.log(ver, wrapVer);
 		if ((hor >= 5 && wrapHor < 2) || (ver >= 5 && wrapVer < 2) || (diag1 >= 5 && wrapDiag2 < 2) || (diag2 >= 5 && wrapDiag < 2)) {
 			// if (hor >= 5 || ver >= 5 || diag1 >= 5 || diag2 >= 5) {
 			return true;
@@ -214,7 +218,21 @@ export default class Board extends Component {
 	// 		}
 	// 	}
 	// };
-
+	post = async () => {
+		let data = new URLSearchParams();
+		data.append("player", this.props.FBuser);
+		data.append("score", this.props.time);
+		const url = `http://ftw-highscores.herokuapp.com/tictactoe-dev`;
+		const response = await fetch(url, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/x-www-form-urlencoded"
+			},
+			body: data.toString(),
+			json: true
+		});
+		console.log(this.props.FBuser, this.props.time);
+	};
 	boxClick = (x, y) => {
 		if (clicked === 0) {
 			this.props.setTheState({ time: 0 });
@@ -236,6 +254,7 @@ export default class Board extends Component {
 				if (this.checkAroundClick(x, y, currentPlayer, enemyPlayer)) {
 					clearInterval(myTime);
 					this.props.setTheState({ winner: currentPlayer });
+					this.post();
 				}
 				// console.log(squareFromApp[x][y]==="X");
 			}

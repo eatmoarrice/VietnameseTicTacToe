@@ -17,10 +17,10 @@ export default class App extends Component {
 			isXNext: true,
 			winner: null,
 			time: -1,
-			FBuser: null,
+			FBuser: "anonymous",
 			avatar: null,
 			history: [],
-			topList: [],
+			topList: []
 		};
 	}
 
@@ -36,7 +36,7 @@ export default class App extends Component {
 			}
 
 			let result = await data.json();
-			console.log(result);
+			// console.log(result);
 			this.setState({ topList: result.items });
 		} catch (err) {
 			alert(err.message);
@@ -48,7 +48,7 @@ export default class App extends Component {
 	render() {
 		const responseFacebook = (response) => {
 			this.setTheState({ FBuser: response.name, avatar: response.picture.data.url });
-			console.log(response);
+			// console.log(response);
 		};
 		return (
 			<div className="text-center">
@@ -62,14 +62,14 @@ export default class App extends Component {
 					</div>
 
 					<div className="d-flex flex-column align-items-center">
-						{this.state.FBuser === null ? (
+						{this.state.FBuser === "anonymous" ? (
 							<FacebookLogin autoLoad={false} appId="270564750982029" fields="name,email,picture" callback={(resp) => responseFacebook(resp)} />
 						) : (
 							<span>
 								Welcome {this.state.FBuser}! <img src={this.state.avatar} />
 							</span>
 						)}
-						{this.state.time >= 0 ? <Timekeeper time={this.state.time} /> : ""}
+						{this.state.time >= 0 ? <Timekeeper time={this.state.time} /> : "Click to start"}
 						<HighScores topList={this.state.topList} />
 					</div>
 					{/* <History {...this.state} setTheState={this.setTheState} /> */}
