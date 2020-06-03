@@ -29,7 +29,7 @@ export default class App extends Component {
 	};
 	getTopScores = async () => {
 		try {
-			const url = `http://ftw-highscores.herokuapp.com/tictactoe-dev?reverse`;
+			const url = `https://ftw-highscores.herokuapp.com/tictactoe-dev?reverse`;
 			let data = await fetch(url);
 			if (data.status !== 200) {
 				throw new Error("data is wrong");
