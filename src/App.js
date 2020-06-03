@@ -11,6 +11,7 @@ export default class App extends Component {
 				.fill(null)
 				.map((x) => Array(9).fill(null)),
 			isXNext: true,
+			winner: null,
 		};
 	}
 
@@ -21,6 +22,7 @@ export default class App extends Component {
 		return (
 			<div>
 				<Board {...this.state} setTheState={this.setTheState} />
+				<div className="text-center">{this.state.winner != null ? <h1 className="green">{this.state.winner} has won the match!</h1> : ""}</div>
 			</div>
 		);
 	}
