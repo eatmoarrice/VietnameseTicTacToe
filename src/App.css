@@ -44,3 +44,19 @@
 .green {
 	color: rgb(0, 218, 0);
 }
+
+.title {
+	font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
+	font-size: 40px;
+	letter-spacing: 0.2px;
+	word-spacing: 1px;
+	background: -webkit-linear-gradient(rgb(101, 255, 216), rgb(82, 22, 194));
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	padding: 5px;
+	color: #ffffff;
+	font-weight: 700;
+	text-decoration: none;
+	font-style: italic;
+	font-variant: small-caps;
+}

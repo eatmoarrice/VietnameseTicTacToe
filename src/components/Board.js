@@ -228,12 +228,12 @@ export default class Board extends Component {
 
 	render() {
 		let status = "";
-		status = `Next player: ${this.props.isXNext ? "X" : "O"}`;
+		// status = `Next player: ${this.props.isXNext ? "X" : "O"}`;
 		return (
 			<div className="text-center d-flex flex-column align-items-center">
-				<h2>{status}</h2>
-				<h1>Vietnamese Tic Tac Toe!</h1>
-				<h4>Get 5 in a row with at least one end NOT blocked to win!</h4>
+				<h1 className="title">Vietnamese Tic Tac Toe!</h1>
+				<h6>Get 5 in a row with at least one end NOT blocked to win!</h6>
+				<h4>Next player: {this.props.isXNext ? <span className="red">X</span> : <span className="green">O</span>}</h4>
 				<div className="papergrid">
 					{/* <div className="ticrow">{this.renderRow(1, 6)}</div>
 					<div className="ticrow">{this.renderRow(2, 6)}</div>
