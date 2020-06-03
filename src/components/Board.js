@@ -3,6 +3,8 @@ import Square from "./Square";
 
 const row = 9;
 const column = 9;
+let clicked = 0;
+let myTime;
 
 export default class Board extends Component {
 	renderSquare = (x, y) => {
@@ -16,6 +18,15 @@ export default class Board extends Component {
 	// 	console.log(this.renderSquare(0));
 	// 	return rowHTML;
 	// };
+	// timer will be assign to this variable
+	timecounting = () => {
+		myTime = setInterval(() => {
+			this.props.setTheState({
+				time: this.props.time + 1,
+			});
+		}, 1000); // every 1 second, it will add 1 into time variable (computer use millisecond so 1000 is 1 second)
+	};
+
 	renderGrid = () => {
 		let gridHTML = [];
 		for (let x = 0; x < row; x++) {
@@ -204,21 +215,26 @@ export default class Board extends Component {
 	// 	}
 	// };
 
-	checkWinner = () => {
-		// console.log(this.checkBoard("X", "O"));
-		// console.log(this.checkBoard("O", "X"));
-	};
-
 	boxClick = (x, y) => {
+		if (clicked === 0) {
+			this.props.setTheState({ time: 0 });
+			this.timecounting();
+			clicked++;
+		}
+		if (this.props.history.length === 0) {
+			// this.props.setTheState({ time: Date.now() });
+		}
 		if (this.props.winner === null) {
 			let squareFromApp = this.props.squares;
 			if (squareFromApp[x][y] === null) {
+				this.props.setTheState({ history: [1, 2] });
 				squareFromApp[x][y] = this.props.isXNext ? "X" : "O";
 				let currentPlayer = squareFromApp[x][y];
 				let enemyPlayer = currentPlayer === "X" ? "O" : "X";
 				this.props.setTheState({ squares: squareFromApp, isXNext: !this.props.isXNext });
-				this.checkWinner();
+				// this.checkWinner();
 				if (this.checkAroundClick(x, y, currentPlayer, enemyPlayer)) {
+					clearInterval(myTime);
 					this.props.setTheState({ winner: currentPlayer });
 				}
 				// console.log(squareFromApp[x][y]==="X");
@@ -227,12 +243,12 @@ export default class Board extends Component {
 	};
 
 	render() {
-		let status = "";
+		// let status = "";
 		// status = `Next player: ${this.props.isXNext ? "X" : "O"}`;
 		return (
 			<div className="text-center d-flex flex-column align-items-center">
-				<h1 className="title">Vietnamese Tic Tac Toe!</h1>
-				<h6>Get 5 in a row with at least one end NOT blocked to win!</h6>
+				{/* <h1>{this.props.time}</h1> */}
+
 				<h4>Next player: {this.props.isXNext ? <span className="red">X</span> : <span className="green">O</span>}</h4>
 				<div className="papergrid">
 					{/* <div className="ticrow">{this.renderRow(1, 6)}</div>

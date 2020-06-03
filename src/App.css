@@ -60,3 +60,33 @@
 	font-style: italic;
 	font-variant: small-caps;
 }
+
+.scoreboard {
+	background-color: rgb(30, 124, 108);
+	padding: 30px;
+	margin: 20px;
+	border-radius: 20px;
+	color: white;
+}
+
+.scoreboard-title {
+	font-family: Tahoma, Geneva, sans-serif;
+	font-size: 40px;
+	letter-spacing: 1.8px;
+	word-spacing: 1px;
+	background: -webkit-linear-gradient(rgb(174, 255, 154), rgb(214, 228, 255));
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	padding: 5px;
+	color: #ffffff;
+	font-weight: 700;
+	text-decoration: none;
+	font-style: italic;
+	font-variant: small-caps;
+	text-transform: none;
+	text-shadow: 1px 1px rgba(255, 255, 255, 0.342);
+}
+
+.scoreboard > * {
+	margin-bottom: 5px;
+}
