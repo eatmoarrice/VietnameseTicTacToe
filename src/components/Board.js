@@ -222,7 +222,7 @@ export default class Board extends Component {
 		let data = new URLSearchParams();
 		data.append("player", this.props.FBuser);
 		data.append("score", this.props.time);
-		const url = `http://ftw-highscores.herokuapp.com/tictactoe-dev`;
+		const url = `https://ftw-highscores.herokuapp.com/tictactoe-dev`;
 		const response = await fetch(url, {
 			method: "POST",
 			headers: {
@@ -233,6 +233,7 @@ export default class Board extends Component {
 		});
 		console.log(this.props.FBuser, this.props.time);
 	};
+
 	boxClick = (x, y) => {
 		if (clicked === 0) {
 			this.props.setTheState({ time: 0 });
